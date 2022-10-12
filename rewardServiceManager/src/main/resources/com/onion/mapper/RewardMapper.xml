@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.onion.mapper.RewardMapper">
+
+    <resultMap id="BaseResultMap" type="com.onion.entity.pojo.Reward">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="orderId" column="order_id" jdbcType="INTEGER"/>
+            <result property="amount" column="amount" jdbcType="DECIMAL"/>
+            <result property="status" column="status" jdbcType="VARCHAR"/>
+            <result property="date" column="date" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,order_id,amount,
+        status,date
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from reward
+        where  id = #{id,jdbcType=INTEGER} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from reward
+        where  id = #{id,jdbcType=INTEGER} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.onion.entity.pojo.Reward" useGeneratedKeys="true">
+        insert into reward
+        ( id,order_id,amount
+        ,status,date)
+        values (#{id,jdbcType=INTEGER},#{orderId,jdbcType=INTEGER},#{amount,jdbcType=DECIMAL}
+        ,#{status,jdbcType=VARCHAR},#{date,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.onion.entity.pojo.Reward" useGeneratedKeys="true">
+        insert into reward
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="orderId != null">order_id,</if>
+                <if test="amount != null">amount,</if>
+                <if test="status != null">status,</if>
+                <if test="date != null">date,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id,jdbcType=INTEGER},</if>
+                <if test="orderId != null">#{orderId,jdbcType=INTEGER},</if>
+                <if test="amount != null">#{amount,jdbcType=DECIMAL},</if>
+                <if test="status != null">#{status,jdbcType=VARCHAR},</if>
+                <if test="date != null">#{date,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.onion.entity.pojo.Reward">
+        update reward
+        <set>
+                <if test="orderId != null">
+                    order_id = #{orderId,jdbcType=INTEGER},
+                </if>
+                <if test="amount != null">
+                    amount = #{amount,jdbcType=DECIMAL},
+                </if>
+                <if test="status != null">
+                    status = #{status,jdbcType=VARCHAR},
+                </if>
+                <if test="date != null">
+                    date = #{date,jdbcType=TIMESTAMP},
+                </if>
+        </set>
+        where   id = #{id,jdbcType=INTEGER} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.onion.entity.pojo.Reward">
+        update reward
+        set 
+            order_id =  #{orderId,jdbcType=INTEGER},
+            amount =  #{amount,jdbcType=DECIMAL},
+            status =  #{status,jdbcType=VARCHAR},
+            date =  #{date,jdbcType=TIMESTAMP}
+        where   id = #{id,jdbcType=INTEGER} 
+    </update>
+</mapper>
